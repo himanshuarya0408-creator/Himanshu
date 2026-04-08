@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIMANSHU ARYA - Resume</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+            color: #e8e8e8;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Subtle Background Animation */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 107, 157, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(0, 255, 136, 0.06) 0%, transparent 50%);
+            animation: bgPulse 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgPulse {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.2rem 5%;
+            background: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(30px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #00d4ff, #ff6b9d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #d0d0d0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(45deg, #00d4ff, #ff6b9d);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .download-resume {
+            background: linear-gradient(45deg, #00d4ff, #ff6b9d);
+            padding: 0.8rem 1.8rem;
+            border-radius: 25px;
+            color: #000 !important;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .download-resume:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.5);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            padding: 12rem 5% 6rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        #heroCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 1;
+            opacity: 0.7;
+        }
+
+        .hero-content {
+            max-width: 700px;
+            z-index: 10;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 7vw, 5rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #ffffff, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            font-weight: 400;
+            line-height: 1.7;
+        }
+
+        .profile-section {
+            text-align: center;
+            max-width: 320px;
+            z-index: 10;
+        }
+
+        .profile-photo {
+            width: 260px;
+            height: 320px;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            animation: photoFloat 8s ease-in-out infinite;
+        }
+
+        .profile-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @keyframes photoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.3rem;
+            color: #ffffff;
+        }
+
+        .profile-title {
+            color: #00d4ff;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        /* Sections */
+        .section {
+            padding: 8rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            font-weight: 800;
+            color: #ffffff;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(45deg, #00d4ff, #ff6b9d);
+            border-radius: 2px;
+        }
+
+        /* Content Cards */
+        .content-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .content-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(0, 212, 255, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .skill-category {
+            margin-bottom: 2.5rem;
+        }
+
+        .skill-category h4 {
+            font-size: 1.2rem;
+            color: #00d4ff;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .skill-tag {
+            padding: 0.6rem 1.2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: #00d4ff;
+            color: #00d4ff;
+        }
+
+        /* Experience & Education Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin: 3rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #00d4ff, #ff6b9d);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            padding-left: 2.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -3.5rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: linear-gradient(45deg, #00d4ff, #ff6b9d);
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(0, 212, 255, 0.3);
+        }
+
+        .timeline-date {
+            color: #00d4ff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-company {
+            color: #00ff88;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+
+        .timeline-desc {
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+
+        /* Contact */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: #00d4ff;
+            transform: translateX(10px);
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+            width: 40px;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                gap: 3rem;
+            }
+            
+            .nav-links {
+                gap: 1.5rem;
+            }
+            
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="logo">HIMANSHU ARYA</div>
+        <ul class="nav-links">
+            <li><a href="#summary">Summary</a></li>
+            <li><a href="#skills">Skills</a></li>
+          
+            <li><a href="#Qualification">Qualification</a></li>
+            <li><a href="#contact" 
+                 Replace the existing download button -->
+<li>
+    <a href="Himanshu Arya.docx" class="download-resume" download>Download Resume (.docx)</a>
+</li></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Summary Section -->
+    <section id="summary" class="hero">
+        <canvas id="heroCanvas"></canvas>
+        <div class="hero-content">
+            <h1 class="hero-title">LAB CHEMIST</h1>
+            <p class="hero-subtitle">
+                1+ years experience in laboratory opretions, Quality control. 
+                Expert in reaction optimization, scale-up processes, and analytical characterization.
+                 <div class="profile-name">HIMANSHU ARYA</div>
+
+                <div class="profile-title">S/o MUKESH CHANDRA</div>
+
+                <div class="profile-title">HALDWANI</div>
+                <div class="profile-title">Dist- NAINITAL(UTTRAKHAND)</div>
+                <div class="profile-title">Pin code- 263139</div>
+                <div class="profile-title">CONTACT - 7217444228</div>
+                <div class="profile-name">E-mail</div>
+                <div class="profile-title">himanshuarya0408@gmail.com</div>
+
+                    
+            </p>
+        </div>
+        
+        <div class="profile-section">
+            <div class="profile-photo">
+                <img src="IMG_20260409_034250 copy.png" alt="Himanshu Arya" loading="lazy">
+            </div>
+            <div class="profile-name">HIMANSHU ARYA</div>
+            <div class="profile-title">Lab Chemist</div>
+            <div style="color: #888; font-size: 0.9rem; margin-top: 0.5rem;">From | 2025</div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section">
+        <h2 class="section-title">Skills</h2>
+        <div class="content-card">
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h4>Starch</h4>
+                    <div class="skills-list">
+                        <span class="skill-tag">Protein</span>
+                        <span class="skill-tag">Carbohydrates</span>
+                        <span class="skill-tag">Fats</span>
+                        <span class="skill-tag">Moisture</span>
+                        <span class="skill-tag">Viscosity</span>
+                        <span class="skill-tag">Brightness</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h4>Derivatives(L.G.)</h4>
+                    <div class="skills-list">
+                        <span class="skill-tag">Dextrose Equivalants</span>
+                        <span class="skill-tag">Dry Solids</span>
+                        <span class="skill-tag">Potential of Hydrogen</span>
+                        <span class="skill-tag">D.F.</span>
+                        <span class="skill-tag">SO2</span>
+                        <span class="skill-tag">Acidity</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h4>Water Analysis</h4>
+                    <div class="skills-list">
+                        <span class="skill-tag">pH</span>
+                        <span class="skill-tag">Conductivity</span>
+                        <span class="skill-tag">TDS</span>
+                        <span class="skill-tag">Total Hardness</span>
+                        <span class="skill-tag">Chloride</span>
+                        
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h4>Other Skills</h4>
+                    <div class="skills-list">
+                        <span class="skill-tag">Computer knowledge</span>
+                        <span class="skill-tag">Adaptability</span>
+                        <span class="skill-tag">Problem-Solving</span>
+                        <span class="skill-tag">Good Communication</span>
+                        <span class="skill-tag">Professionalism and strong work ethic</span>
+                        <span class="skill-tag">Teamwork and collaboration</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="Qualification" class="section">
+        <h2 class="section-title">QUALIFICATIONS</h2>
+        <div class="content-card">
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2026 - Present</div>
+                    <div class="timeline-title">Graduation</div>
+                    <div class="timeline-company"></div>
+                    <p class="timeline-desc">
+                        Dropped out after completing 2 years of B.tech and currently pursuing B.sc.
+                    </p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2023</div>
+                    <div class="timeline-title">Higher Secondary</div>
+                    <div class="timeline-company">A B M HR Secondary School Haldwani, Uttrakhand </div>
+                    <p class="timeline-desc">
+                        Percentage : 67%
+                    </p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2020</div>
+                    <div class="timeline-title">High School</div>
+                    <div class="timeline-company">ST. Alphonsa High School Nizamabad, Telangana</div>
+                    <p class="timeline-desc">
+                        Cumulative Grade Point Average (CGPA) : 10.0
